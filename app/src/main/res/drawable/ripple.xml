@@ -1,0 +1,11 @@
+<ripple
+    android:color="@color/md_grey_500"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <selector>
+            <item android:state_pressed="true" android:drawable="@color/md_white_1000" />
+            <item android:state_activated="true" android:drawable="@color/md_white_1000" />
+            <item android:drawable="@color/md_white_1000" />
+        </selector>
+    </item>
+</ripple>
