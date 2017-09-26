@@ -1,5 +1,6 @@
 package com.faviotorres.acopiomx.home;
 
+import android.content.Intent;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.widget.ProgressBar;
 
 import com.faviotorres.acopiomx.R;
 import com.faviotorres.acopiomx.base.BaseActivity;
+import com.faviotorres.acopiomx.login.ActivityLogin;
 import com.faviotorres.acopiomx.model.Acopio;
 
 import java.util.List;
@@ -20,6 +22,7 @@ public class ActivityHome extends BaseActivity implements HomeContract.View {
 
     private Presenter presenter;
 
+
     /* BASE ACTIVITY */
 
     @Override
@@ -32,7 +35,7 @@ public class ActivityHome extends BaseActivity implements HomeContract.View {
         super.create();
         setupToolbar(toolbar, getString(R.string.app_name), false);
         initialize();
-        getAcopios();
+        checkUser();
     }
 
 
@@ -42,10 +45,9 @@ public class ActivityHome extends BaseActivity implements HomeContract.View {
         presenter = new Presenter(this);
     }
 
-    private void getAcopios() {
-        presenter.getAcopios();
+    private void checkUser() {
+        presenter.checkIfUserIsLoggedIn(preferencesUtils, getSharedPreferences(this));
     }
-
 
 
     /* HOME CONTRACT VIEW */
@@ -71,5 +73,17 @@ public class ActivityHome extends BaseActivity implements HomeContract.View {
         for (Acopio acopio: acopios) {
             Log.d("ACOPIOS", "---> acopios: " + acopio.toString());
         }
+    }
+
+    @Override
+    public void userIsLoggedIn() {
+        presenter.getAcopios();
+    }
+
+    @Override
+    public void userIsNotLoggedIn() {
+        Intent intent = new Intent(this, ActivityLogin.class);
+        startActivity(intent);
+        finish();
     }
 }

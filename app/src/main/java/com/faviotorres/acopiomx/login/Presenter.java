@@ -1,14 +1,11 @@
-package com.faviotorres.acopiomx.home;
+package com.faviotorres.acopiomx.login;
 
-import android.content.SharedPreferences;
+
 import android.util.Log;
 
-import com.faviotorres.acopiomx.model.Acopio;
+import com.faviotorres.acopiomx.model.Login;
 import com.faviotorres.acopiomx.retro.Retro;
 import com.faviotorres.acopiomx.retro.RetroService;
-import com.faviotorres.acopiomx.utils.PreferencesUtils;
-
-import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
@@ -16,59 +13,50 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class Presenter implements HomeContract.Presenter {
+public class Presenter implements LoginContract.Presenter {
 
     private RetroService retroService;
-    private HomeContract.View view;
+    private LoginContract.View view;
 
-    Presenter(HomeContract.View view) {
+    Presenter(LoginContract.View view) {
         this.view = view;
         this.retroService = Retro.getService();
     }
 
     @Override
-    public void getAcopios() {
+    public void login(String email, String username, String password) {
         view.showProgressBar();
         if (retroService != null) {
-            Log.d("ACOPIOS URL", "---> url: "+retroService.toString());
-            Observable<List<Acopio>> acopios = retroService.fetchAcopios();
-            if (acopios != null) {
-                acopios.subscribeOn(Schedulers.newThread())
+            Observable<Login.Result> result = retroService
+                    .login(new Login(email, username, password));
+            if (result != null) {
+                result.subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Observer<List<Acopio>>() {
+                        .subscribe(new Observer<Login.Result>() {
                             @Override
                             public void onSubscribe(Disposable d) { }
 
                             @Override
-                            public void onNext(List<Acopio> acopios) {
+                            public void onNext(Login.Result s) {
                                 view.hideProgressBar();
-                                if (acopios == null) {
-                                    view.showError("Could not fetch data");
+                                if (s == null) {
+                                    view.showError("Could not login, please try again");
                                     return;
                                 }
-                                view.setupAcopios(acopios);
+                                view.setupId(s.getId());
                             }
 
                             @Override
                             public void onError(Throwable e) {
                                 view.hideProgressBar();
                                 view.showError(e.getLocalizedMessage());
+                                Log.d("LOGIN", "---> error: "+e.getLocalizedMessage());
                             }
 
                             @Override
                             public void onComplete() { }
                         });
             }
-        }
-    }
-
-    @Override
-    public void checkIfUserIsLoggedIn(PreferencesUtils preferencesUtils, SharedPreferences shared) {
-        String token = preferencesUtils.loadToken(shared);
-        if (token == null) {
-            view.userIsNotLoggedIn();
-        } else {
-            view.userIsLoggedIn();
         }
     }
 }

@@ -8,7 +8,7 @@ public class Retro {
 
     private static final String BASE_URL = "http://hapi.balterbyte.com:8080/api/";
 
-    public RetroService getService() {
+    public static RetroService getService() {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create()).build();
