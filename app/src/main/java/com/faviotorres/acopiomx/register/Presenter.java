@@ -1,9 +1,8 @@
-package com.faviotorres.acopiomx.login;
-
+package com.faviotorres.acopiomx.register;
 
 import android.util.Log;
 
-import com.faviotorres.acopiomx.model.Login;
+import com.faviotorres.acopiomx.model.Register;
 import com.faviotorres.acopiomx.retro.Retro;
 import com.faviotorres.acopiomx.retro.RetroService;
 
@@ -13,31 +12,31 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-class Presenter implements LoginContract.Presenter {
+class Presenter implements RegisterContract.Presenter {
 
     private RetroService retroService;
-    private LoginContract.View view;
+    private RegisterContract.View view;
 
-    Presenter(LoginContract.View view) {
+    Presenter(RegisterContract.View view) {
         this.view = view;
         this.retroService = Retro.getService();
     }
 
     @Override
-    public void login(String email, String username, String password) {
+    public void register(String email, String username, String password) {
         view.showProgressBar();
         if (retroService != null) {
-            Observable<Login.Result> result = retroService
-                    .login(new Login(email, username, password));
+            Observable<Register.Result> result = retroService
+                    .register(new Register(email, username, password));
             if (result != null) {
                 result.subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Observer<Login.Result>() {
+                        .subscribe(new Observer<Register.Result>() {
                             @Override
                             public void onSubscribe(Disposable d) { }
 
                             @Override
-                            public void onNext(Login.Result s) {
+                            public void onNext(Register.Result s) {
                                 view.hideProgressBar();
                                 if (s == null) {
                                     view.showError("Could not login, please try again");

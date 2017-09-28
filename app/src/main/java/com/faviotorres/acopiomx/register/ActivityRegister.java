@@ -1,9 +1,7 @@
-package com.faviotorres.acopiomx.login;
+package com.faviotorres.acopiomx.register;
 
 import android.content.Intent;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -11,12 +9,11 @@ import android.widget.ProgressBar;
 import com.faviotorres.acopiomx.R;
 import com.faviotorres.acopiomx.base.BaseActivity;
 import com.faviotorres.acopiomx.home.ActivityHome;
-import com.faviotorres.acopiomx.register.ActivityRegister;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class ActivityLogin extends BaseActivity implements LoginContract.View {
+public class ActivityRegister extends BaseActivity implements RegisterContract.View {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.email_et) EditText emailET;
@@ -25,12 +22,9 @@ public class ActivityLogin extends BaseActivity implements LoginContract.View {
 
     private Presenter presenter;
 
-
-    /* BASE ACTIVITY */
-
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_login;
+        return R.layout.activity_register;
     }
 
     @Override
@@ -38,29 +32,8 @@ public class ActivityLogin extends BaseActivity implements LoginContract.View {
         super.create();
         initialize();
         initializeUI();
+
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_login, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.action_registro:
-                Intent intent = new Intent(this, ActivityRegister.class);
-                startActivity(intent);
-                break;
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-
 
     /* MAIN FUNCTIONS */
 
@@ -69,21 +42,22 @@ public class ActivityLogin extends BaseActivity implements LoginContract.View {
     }
 
     private void initializeUI() {
-        setupToolbar(toolbar, "Login", false);
+        setupToolbar(toolbar, "Register", true);
         hideProgressBar();
     }
 
 
+
     /* ON CLICKS */
 
-    @OnClick(R.id.login_b)
-    public void onClickLogin() {
-        presenter.login(getTextET(emailET), getTextET(emailET), getTextET(passwordET));
+    @OnClick(R.id.register_b)
+    public void onClickRegister() {
+        presenter.register(getTextET(emailET), getTextET(emailET), getTextET(passwordET));
     }
 
 
 
-    /* LOGIN CONTRACT */
+    /* REGISTER CONTRACT VIEW */
 
     @Override
     public void showProgressBar() {
@@ -103,8 +77,10 @@ public class ActivityLogin extends BaseActivity implements LoginContract.View {
     @Override
     public void setupId(String id) {
         if (id != null) {
-            saveToken(this, "LOGIN", id);
+            saveToken(this, "REGISTER", id);
             Intent intent = new Intent(this, ActivityHome.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                    Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();
         }

@@ -3,6 +3,8 @@ package com.faviotorres.acopiomx.home;
 import android.content.Intent;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -36,6 +38,27 @@ public class ActivityHome extends BaseActivity implements HomeContract.View {
         setupToolbar(toolbar, getString(R.string.app_name), false);
         initialize();
         checkUser();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_home, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_logout:
+                saveToken(this, "HOME", null);
+                userIsNotLoggedIn();
+                break;
+
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 

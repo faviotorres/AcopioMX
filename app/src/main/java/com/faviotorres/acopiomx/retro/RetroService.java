@@ -3,6 +3,7 @@ package com.faviotorres.acopiomx.retro;
 
 import com.faviotorres.acopiomx.model.Acopio;
 import com.faviotorres.acopiomx.model.Login;
+import com.faviotorres.acopiomx.model.Register;
 
 import java.util.List;
 
@@ -18,4 +19,7 @@ public interface RetroService {
 
     @POST("voluntarios/login/")
     Observable<Login.Result> login(@Body Login login);
+
+    @POST("voluntarios/")
+    Observable<Register.Result> register(@Body Register register);
 }
