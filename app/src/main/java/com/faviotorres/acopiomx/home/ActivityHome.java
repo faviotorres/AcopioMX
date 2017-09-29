@@ -3,6 +3,8 @@ package com.faviotorres.acopiomx.home;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
@@ -14,37 +16,45 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.faviotorres.acopiomx.Client;
 import com.faviotorres.acopiomx.R;
 import com.faviotorres.acopiomx.base.BaseActivity;
-import com.faviotorres.acopiomx.login.ActivityLogin;
 import com.faviotorres.acopiomx.model.Acopio;
+import com.faviotorres.acopiomx.splash.ActivitySplash;
+import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.maps.MapView;
+import com.mapbox.mapboxsdk.maps.MapboxMap;
+import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
-public class ActivityHome extends BaseActivity implements HomeContract.View {
+public class ActivityHome extends BaseActivity implements HomeContract.View, OnMapReadyCallback {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.map_view) MapView mapView;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
 
     private Context context;
+    private MapboxMap mapboxMap;
     private Presenter presenter;
 
 
     /* BASE ACTIVITY */
 
     @Override
-    protected int getLayoutId() {
-        return R.layout.activity_home;
-    }
-
-    @Override
-    public void create() {
-        super.create();
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Mapbox.getInstance(this, Client.MAPBOX_TOKEN);
+        setContentView(R.layout.activity_home);
+        ButterKnife.bind(this);
         setupToolbar(toolbar, getString(R.string.app_name), false);
+        mapView.onCreate(savedInstanceState);
+        mapView.getMapAsync(this);
         initialize();
-        checkUser();
+        getAcopios();
     }
 
     @Override
@@ -69,16 +79,61 @@ public class ActivityHome extends BaseActivity implements HomeContract.View {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        mapView.onStart();
+    }
 
-    /* MAIN */
+    @Override
+    public void onResume() {
+        super.onResume();
+        mapView.onResume();
+    }
 
-    private void initialize() {
+    @Override
+    public void onPause() {
+        super.onPause();
+        mapView.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mapView.onStop();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mapView.onSaveInstanceState(outState);
+    }
+
+
+
+    /* MAIN FUNCTIONS */
+
+    @Override
+    protected void initialize() {
+        super.initialize();
         context = this;
         presenter = new Presenter(this);
     }
 
-    private void checkUser() {
-        presenter.checkIfUserIsLoggedIn(preferencesUtils, getSharedPreferences(this));
+    private void getAcopios() {
+        presenter.getAcopios();
     }
 
     private void showSupportersDialog() {
@@ -98,7 +153,7 @@ public class ActivityHome extends BaseActivity implements HomeContract.View {
             @Override
             public void onClick(View view) {
                 saveToken(context, "HOME", null);
-                Intent intent = new Intent(context, ActivityHome.class);
+                Intent intent = new Intent(context, ActivitySplash.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK |
                         Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
@@ -135,15 +190,11 @@ public class ActivityHome extends BaseActivity implements HomeContract.View {
         }
     }
 
-    @Override
-    public void userIsLoggedIn() {
-        presenter.getAcopios();
-    }
+
+    /* MAP BOX CALLBACK */
 
     @Override
-    public void userIsNotLoggedIn() {
-        Intent intent = new Intent(this, ActivityLogin.class);
-        startActivity(intent);
-        finish();
+    public void onMapReady(MapboxMap mapboxMap) {
+        this.mapboxMap = mapboxMap;
     }
 }

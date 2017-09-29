@@ -1,12 +1,10 @@
 package com.faviotorres.acopiomx.home;
 
-import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.faviotorres.acopiomx.model.Acopio;
 import com.faviotorres.acopiomx.retro.Retro;
 import com.faviotorres.acopiomx.retro.RetroService;
-import com.faviotorres.acopiomx.utils.PreferencesUtils;
 
 import java.util.List;
 
@@ -16,7 +14,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class Presenter implements HomeContract.Presenter {
+class Presenter implements HomeContract.Presenter {
 
     private RetroService retroService;
     private HomeContract.View view;
@@ -59,16 +57,6 @@ public class Presenter implements HomeContract.Presenter {
                             public void onComplete() { }
                         });
             }
-        }
-    }
-
-    @Override
-    public void checkIfUserIsLoggedIn(PreferencesUtils preferencesUtils, SharedPreferences shared) {
-        String token = preferencesUtils.loadToken(shared);
-        if (token == null) {
-            view.userIsNotLoggedIn();
-        } else {
-            view.userIsLoggedIn();
         }
     }
 }

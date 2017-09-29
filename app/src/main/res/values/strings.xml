@@ -11,4 +11,7 @@
         - Josué Hernández<br/><br/>]]>
     </string>
     <string name="help">Help</string>
+
+    <string name="mexico_city_lat">19.433536</string>
+    <string name="mexico_city_lng">-99.125898</string>
 </resources>

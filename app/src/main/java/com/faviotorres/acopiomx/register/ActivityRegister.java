@@ -1,6 +1,8 @@
 package com.faviotorres.acopiomx.register;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
@@ -11,6 +13,7 @@ import com.faviotorres.acopiomx.base.BaseActivity;
 import com.faviotorres.acopiomx.home.ActivityHome;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ActivityRegister extends BaseActivity implements RegisterContract.View {
@@ -23,21 +26,19 @@ public class ActivityRegister extends BaseActivity implements RegisterContract.V
     private Presenter presenter;
 
     @Override
-    protected int getLayoutId() {
-        return R.layout.activity_register;
-    }
-
-    @Override
-    protected void create() {
-        super.create();
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_register);
+        ButterKnife.bind(this);
         initialize();
         initializeUI();
-
     }
 
     /* MAIN FUNCTIONS */
 
-    private void initialize() {
+    @Override
+    protected void initialize() {
+        super.initialize();
         presenter = new Presenter(this);
     }
 

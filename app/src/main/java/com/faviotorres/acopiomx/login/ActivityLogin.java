@@ -1,6 +1,8 @@
 package com.faviotorres.acopiomx.login;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,6 +16,7 @@ import com.faviotorres.acopiomx.home.ActivityHome;
 import com.faviotorres.acopiomx.register.ActivityRegister;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ActivityLogin extends BaseActivity implements LoginContract.View {
@@ -29,13 +32,10 @@ public class ActivityLogin extends BaseActivity implements LoginContract.View {
     /* BASE ACTIVITY */
 
     @Override
-    protected int getLayoutId() {
-        return R.layout.activity_login;
-    }
-
-    @Override
-    protected void create() {
-        super.create();
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+        ButterKnife.bind(this);
         initialize();
         initializeUI();
     }
@@ -64,7 +64,9 @@ public class ActivityLogin extends BaseActivity implements LoginContract.View {
 
     /* MAIN FUNCTIONS */
 
-    private void initialize() {
+    @Override
+    protected void initialize() {
+        super.initialize();
         presenter = new Presenter(this);
     }
 
