@@ -59,6 +59,9 @@ public class ActivityHome extends BaseActivity implements HomeContract.View {
             case R.id.action_info:
                 showSupportersDialog();
                 break;
+            case R.id.action_help:
+
+                break;
             case android.R.id.home:
                 onBackPressed();
                 return true;

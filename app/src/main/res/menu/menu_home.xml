@@ -7,4 +7,8 @@
         android:icon="@drawable/info"
         android:title="@string/info"
         app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/action_help"
+        android:title="@string/help"
+        app:showAsAction="never"/>
 </menu>
