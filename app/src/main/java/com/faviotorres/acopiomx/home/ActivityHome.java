@@ -1,12 +1,18 @@
 package com.faviotorres.acopiomx.home;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.faviotorres.acopiomx.R;
 import com.faviotorres.acopiomx.base.BaseActivity;
@@ -22,6 +28,7 @@ public class ActivityHome extends BaseActivity implements HomeContract.View {
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
 
+    private Context context;
     private Presenter presenter;
 
 
@@ -49,11 +56,9 @@ public class ActivityHome extends BaseActivity implements HomeContract.View {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.action_logout:
-                saveToken(this, "HOME", null);
-                userIsNotLoggedIn();
+            case R.id.action_info:
+                showSupportersDialog();
                 break;
-
             case android.R.id.home:
                 onBackPressed();
                 return true;
@@ -65,11 +70,40 @@ public class ActivityHome extends BaseActivity implements HomeContract.View {
     /* MAIN */
 
     private void initialize() {
+        context = this;
         presenter = new Presenter(this);
     }
 
     private void checkUser() {
         presenter.checkIfUserIsLoggedIn(preferencesUtils, getSharedPreferences(this));
+    }
+
+    private void showSupportersDialog() {
+        final Dialog fullscreenDialog = new Dialog(this, R.style.DialogFullscreen);
+        fullscreenDialog.setContentView(R.layout.dialog_supporters);
+        Button logoutB = fullscreenDialog.findViewById(R.id.logout_b);
+        ImageView img_dialog_fullscreen_close = fullscreenDialog.findViewById(R.id.close_iv);
+        TextView collaborationTV = fullscreenDialog.findViewById(R.id.info_collaboration_tv);
+        collaborationTV.setText(Html.fromHtml(getString(R.string.collaboration)));
+        img_dialog_fullscreen_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fullscreenDialog.dismiss();
+            }
+        });
+        logoutB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                saveToken(context, "HOME", null);
+                Intent intent = new Intent(context, ActivityHome.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                        Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        fullscreenDialog.show();
     }
 
 

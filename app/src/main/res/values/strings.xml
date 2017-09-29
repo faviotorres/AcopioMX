@@ -4,4 +4,10 @@
     <string name="email">email</string>
     <string name="password">password</string>
     <string name="register">Register</string>
+    <string name="info">Info</string>
+    <string name="logout">Logout</string>
+    <string name="collaboration"><![CDATA[ In colaboration with: <br/>
+        - Nélida Velázquez <br/>
+        - Josué Hernández<br/><br/>]]>
+    </string>
 </resources>
