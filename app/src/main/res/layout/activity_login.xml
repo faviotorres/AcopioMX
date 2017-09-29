@@ -28,7 +28,7 @@
                 android:textSize="32sp"
                 android:textStyle="bold"
                 android:text="@string/login"
-                android:textColor="@color/md_black_1000"/>
+                android:textColor="@color/colorAccent"/>
             <EditText
                 android:id="@+id/email_et"
                 android:layout_width="match_parent"
@@ -36,9 +36,9 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:hint="email"
+                android:hint="@string/email"
                 android:inputType="textEmailAddress"
-                android:text="admin@hapi.balterbyte.com"
+                android:text=""
                 android:textColor="@color/md_black_1000"
                 android:textColorHint="@color/md_grey_700"/>
             <EditText
@@ -48,31 +48,27 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:hint="password"
+                android:hint="@string/password"
                 android:inputType="textPassword"
-                android:text="changeme"
+                android:text=""
                 android:textColor="@color/md_black_1000"
                 android:textColorHint="@color/md_grey_700"/>
-            <LinearLayout
+            <Button
+                android:id="@+id/login_b"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="end"
-                android:orientation="horizontal">
-                <ProgressBar
-                    android:id="@+id/progress_bar"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:layout_gravity="center_vertical"/>
-                <Button
-                    android:id="@+id/login_b"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_gravity="end"
-                    android:textColor="@color/md_black_1000"
-                    android:text="@string/login"/>
-            </LinearLayout>
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_gravity="end"
+                android:textColor="@color/md_white_1000"
+                android:text="@string/login"/>
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginTop="16dp"
+                android:layout_gravity="center_horizontal"/>
         </LinearLayout>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="colorPrimary">#FC455F</color>
+    <!--<color name="colorPrimary">#FC455F</color>
     <color name="colorPrimaryDark">#D9253E</color>
-    <color name="colorAccent">#ffc107</color>
-    <!--<color name="colorAccent">#6d9ff4</color>-->
+    <color name="colorAccent">#ffc107</color>-->
+
+
+    <color name="colorPrimary">#E56518</color>
+    <color name="colorPrimaryDark">#CB570A</color>
+    <color name="colorAccent">#555555</color>
+
 
     <color name="colorPopUpBackground">#424242</color>
 
