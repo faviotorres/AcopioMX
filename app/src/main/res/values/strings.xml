@@ -14,4 +14,6 @@
 
     <string name="mexico_city_lat">19.433536</string>
     <string name="mexico_city_lng">-99.125898</string>
+
+    <string name="see_more">See more…</string>
 </resources>

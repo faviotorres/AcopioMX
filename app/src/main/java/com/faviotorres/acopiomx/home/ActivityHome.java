@@ -4,10 +4,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,10 +18,13 @@ import android.widget.TextView;
 
 import com.faviotorres.acopiomx.Client;
 import com.faviotorres.acopiomx.R;
+import com.faviotorres.acopiomx.acopio.ActivityAcopio;
 import com.faviotorres.acopiomx.base.BaseActivity;
 import com.faviotorres.acopiomx.model.Acopio;
 import com.faviotorres.acopiomx.splash.ActivitySplash;
 import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.annotations.IconFactory;
+import com.mapbox.mapboxsdk.annotations.Marker;
 import com.mapbox.mapboxsdk.annotations.MarkerViewOptions;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.maps.MapView;
@@ -42,6 +45,7 @@ public class ActivityHome extends BaseActivity implements HomeContract.View, OnM
     private Context context;
     private MapboxMap mapboxMap;
     private Presenter presenter;
+    private List<Acopio> acopios;
 
 
     /* BASE ACTIVITY */
@@ -56,7 +60,6 @@ public class ActivityHome extends BaseActivity implements HomeContract.View, OnM
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
         initialize();
-        //getAcopios();
     }
 
     @Override
@@ -186,15 +189,19 @@ public class ActivityHome extends BaseActivity implements HomeContract.View, OnM
 
     @Override
     public void setupAcopios(List<Acopio> acopios) {
+        this.acopios = acopios;
         if (this.mapboxMap != null) {
-            for (Acopio acopio : acopios) {
-                Log.d("ACOPIOS", "---> acopios: " + acopio.toString());
-                mapboxMap.addMarker(new MarkerViewOptions()
+            int pos = 0;
+            for (final Acopio acopio : acopios) {
+                MarkerViewOptions options = new MarkerViewOptions()
+                        .icon(IconFactory.getInstance(this).fromResource(R.mipmap.circle))
                         .position(new LatLng(acopio.getGeopos().getLat(),
                                 acopio.getGeopos().getLng()))
                         .title(acopio.getNombre())
-                        .snippet(acopio.getDireccion())
-                );
+                        .snippet(acopio.getDireccion()+"\n"+ getString(R.string.see_more));
+                options.getMarker().setId(pos);
+                pos += 1;
+                mapboxMap.addMarker(options);
             }
         }
     }
@@ -205,6 +212,16 @@ public class ActivityHome extends BaseActivity implements HomeContract.View, OnM
     @Override
     public void onMapReady(MapboxMap mapboxMap) {
         this.mapboxMap = mapboxMap;
+        this.mapboxMap.setOnInfoWindowClickListener(new MapboxMap.OnInfoWindowClickListener() {
+            @Override
+            public boolean onInfoWindowClick(@NonNull Marker marker) {
+                Acopio acopio = acopios.get((int) marker.getId());
+                Intent intent = new Intent(context, ActivityAcopio.class);
+                intent.putExtra("acopio_id", acopio.getId());
+                startActivity(intent);
+                return true;
+            }
+        });
         getAcopios();
     }
 }
