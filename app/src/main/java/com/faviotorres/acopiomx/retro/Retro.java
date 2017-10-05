@@ -6,10 +6,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Retro {
 
-    private static final String BASE_URL = "http://hapi.balterbyte.com:8080/api/";
+    private static final String DEV_BASE_URL = "http://hapi.balterbyte.com:8080/api/";
+    private static final String PROD_BASE_URL = "http://hapi.balterbyte.com/api/";
 
     public static RetroService getService() {
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(PROD_BASE_URL)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create()).build();
         return retrofit.create(RetroService.class);

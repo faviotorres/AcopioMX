@@ -24,7 +24,7 @@
                 android:layout_height="match_parent"
                 mapbox:mapbox_cameraTargetLat="@string/mexico_city_lat"
                 mapbox:mapbox_cameraTargetLng="@string/mexico_city_lng"
-                mapbox:mapbox_cameraZoom="2.5"/>
+                mapbox:mapbox_cameraZoom="4"/>
             <ProgressBar
                 android:id="@+id/progress_bar"
                 android:layout_width="wrap_content"

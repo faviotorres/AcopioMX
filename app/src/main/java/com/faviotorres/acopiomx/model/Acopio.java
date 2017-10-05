@@ -6,14 +6,20 @@ public class Acopio {
 
     private String id;
     private String nombre;
+    private GeoPos geopos;
     private String legacyId;
-    private String lat, lng;
     private String comments;
     private String direccion;
-    //private List<Contacto> contactos;
+
+    public GeoPos getGeopos() {
+        return geopos;
+    }
+
+    public void setGeopos(GeoPos geopos) {
+        this.geopos = geopos;
+    }
+
     private List<String> productosIds;
-    private String fechaDeActualizacion;
-    //private List<Comentario> comentarios;
 
 
     public String getId() {
@@ -40,22 +46,6 @@ public class Acopio {
         this.legacyId = legacyId;
     }
 
-    public String getLat() {
-        return lat;
-    }
-
-    public void setLat(String lat) {
-        this.lat = lat;
-    }
-
-    public String getLng() {
-        return lng;
-    }
-
-    public void setLng(String lng) {
-        this.lng = lng;
-    }
-
     public String getComments() {
         return comments;
     }
@@ -80,16 +70,30 @@ public class Acopio {
         this.productosIds = productosIds;
     }
 
-    public String getFechaDeActualizacion() {
-        return fechaDeActualizacion;
-    }
-
-    public void setFechaDeActualizacion(String fechaDeActualizacion) {
-        this.fechaDeActualizacion = fechaDeActualizacion;
-    }
-
     @Override
     public String toString() {
-        return "id: "+id+" | fecha de actualizacion: "+fechaDeActualizacion;
+        return "id: "+id+" | geopos: "+geopos.getLat()+", "+geopos.getLng()+" | name: "+nombre;
+    }
+
+    public class GeoPos {
+
+        private Double lat;
+        private Double lng;
+
+        public Double getLat() {
+            return lat;
+        }
+
+        public void setLat(Double lat) {
+            this.lat = lat;
+        }
+
+        public Double getLng() {
+            return lng;
+        }
+
+        public void setLng(Double lng) {
+            this.lng = lng;
+        }
     }
 }

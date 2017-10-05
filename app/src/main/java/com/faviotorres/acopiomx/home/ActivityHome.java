@@ -22,6 +22,8 @@ import com.faviotorres.acopiomx.base.BaseActivity;
 import com.faviotorres.acopiomx.model.Acopio;
 import com.faviotorres.acopiomx.splash.ActivitySplash;
 import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.annotations.MarkerViewOptions;
+import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
@@ -54,7 +56,7 @@ public class ActivityHome extends BaseActivity implements HomeContract.View, OnM
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
         initialize();
-        getAcopios();
+        //getAcopios();
     }
 
     @Override
@@ -184,9 +186,16 @@ public class ActivityHome extends BaseActivity implements HomeContract.View, OnM
 
     @Override
     public void setupAcopios(List<Acopio> acopios) {
-        Log.d("ACOPIOS", "---> acopios size: "+acopios.size());
-        for (Acopio acopio: acopios) {
-            Log.d("ACOPIOS", "---> acopios: " + acopio.toString());
+        if (this.mapboxMap != null) {
+            for (Acopio acopio : acopios) {
+                Log.d("ACOPIOS", "---> acopios: " + acopio.toString());
+                mapboxMap.addMarker(new MarkerViewOptions()
+                        .position(new LatLng(acopio.getGeopos().getLat(),
+                                acopio.getGeopos().getLng()))
+                        .title(acopio.getNombre())
+                        .snippet(acopio.getDireccion())
+                );
+            }
         }
     }
 
@@ -196,5 +205,6 @@ public class ActivityHome extends BaseActivity implements HomeContract.View, OnM
     @Override
     public void onMapReady(MapboxMap mapboxMap) {
         this.mapboxMap = mapboxMap;
+        getAcopios();
     }
 }
