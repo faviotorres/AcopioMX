@@ -1,8 +1,9 @@
 package com.faviotorres.acopiomx.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Acopio {
+public class Acopio implements Serializable {
 
     private String id;
     private String nombre;
@@ -75,7 +76,7 @@ public class Acopio {
         return "id: "+id+" | geopos: "+geopos.getLat()+", "+geopos.getLng()+" | name: "+nombre;
     }
 
-    public class GeoPos {
+    public class GeoPos implements Serializable {
 
         private Double lat;
         private Double lng;

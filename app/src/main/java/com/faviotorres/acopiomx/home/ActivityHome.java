@@ -217,7 +217,7 @@ public class ActivityHome extends BaseActivity implements HomeContract.View, OnM
             public boolean onInfoWindowClick(@NonNull Marker marker) {
                 Acopio acopio = acopios.get((int) marker.getId());
                 Intent intent = new Intent(context, ActivityAcopio.class);
-                intent.putExtra("acopio_id", acopio.getId());
+                intent.putExtra("acopio", acopio);
                 startActivity(intent);
                 return true;
             }
