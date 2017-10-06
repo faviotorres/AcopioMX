@@ -33,7 +33,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".acopio.ActivityAcopio" />
-        <activity android:name=".ayuda.ActivityAyuda"></activity>
+        <activity android:name=".ayuda.ActivityAyuda" />
+        <activity android:name=".acopio.agregar.ActivityAgregar"></activity>
     </application>
 
 </manifest>

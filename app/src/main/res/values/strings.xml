@@ -17,4 +17,7 @@
 
     <string name="see_more">See more…</string>
     <string name="filter_applied">Filtro aplicado, centros que necesitan:</string>
+    <string name="agregar_producto_necesitado">Agregar producto necesitado</string>
+    <string name="agregar_hint">Ejemplo: agua, pañales...</string>
+    <string name="agregar">Agregar</string>
 </resources>

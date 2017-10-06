@@ -12,11 +12,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.faviotorres.acopiomx.R;
+import com.faviotorres.acopiomx.acopio.agregar.ActivityAgregar;
 import com.faviotorres.acopiomx.base.BaseActivity;
 import com.faviotorres.acopiomx.model.Acopio;
 import com.faviotorres.acopiomx.model.Producto;
@@ -37,6 +40,7 @@ public class ActivityAcopio extends BaseActivity implements AcopioContract.View 
     @BindView(R.id.acopio_contacto_tv) TextView contactoTV;
     @BindView(R.id.acopio_direccion_tv) TextView direccionTV;
 
+    private Acopio acopio;
     private Presenter presenter;
     private StringBuilder phones;
 
@@ -49,6 +53,27 @@ public class ActivityAcopio extends BaseActivity implements AcopioContract.View 
         initialize();
         initializeUI();
         getAcopioExtra();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_acopio, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+            case R.id.action_agregar:
+                Intent intent = new Intent(this, ActivityAgregar.class);
+                intent.putExtra("acopio", acopio);
+                startActivity(intent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -140,6 +165,7 @@ public class ActivityAcopio extends BaseActivity implements AcopioContract.View 
 
     @Override
     public void setupAcopio(Acopio acopio) {
+        this.acopio = acopio;
         nombreTV.setText(acopio.getNombre());
         direccionTV.setText(acopio.getDireccion());
 
