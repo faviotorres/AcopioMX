@@ -1,7 +1,9 @@
 package com.faviotorres.acopiomx.base;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,6 +15,9 @@ import android.widget.Toast;
 import com.faviotorres.acopiomx.utils.PreferencesUtils;
 
 public abstract class BaseActivity extends AppCompatActivity {
+
+    public static final int PERMISSION_GRANTED = PackageManager.PERMISSION_GRANTED;
+    public static final String CALL_PHONE_PERMISSION = Manifest.permission.CALL_PHONE;
 
     public PreferencesUtils preferencesUtils;
 
@@ -58,11 +63,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         return et.getText().toString();
     }
 
-
     public void saveToken(Context context, String from, String token) {
         preferencesUtils.saveToken(getSharedPreferences(context), from, token);
-    }
-    public String loadToken(Context context) {
-        return preferencesUtils.loadToken(getSharedPreferences(context));
     }
 }

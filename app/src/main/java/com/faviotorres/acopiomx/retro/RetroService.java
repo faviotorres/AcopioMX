@@ -2,6 +2,7 @@ package com.faviotorres.acopiomx.retro;
 
 
 import com.faviotorres.acopiomx.model.Acopio;
+import com.faviotorres.acopiomx.model.Contacto;
 import com.faviotorres.acopiomx.model.Login;
 import com.faviotorres.acopiomx.model.Producto;
 import com.faviotorres.acopiomx.model.Register;
@@ -27,4 +28,7 @@ public interface RetroService {
 
     @GET("acopios/{acopioId}/productos")
     Observable<List<Producto>> fetchProductos(@Path("acopioId") String acopioId);
+
+    @GET("acopios/{acopioId}/contactos")
+    Observable<List<Contacto>> fetchContacto(@Path("acopioId") String acopioId);
 }

@@ -3,10 +3,12 @@ package com.faviotorres.acopiomx.acopio;
 import android.content.Intent;
 
 import com.faviotorres.acopiomx.model.Acopio;
+import com.faviotorres.acopiomx.model.Contacto;
 import com.faviotorres.acopiomx.model.Producto;
 import com.faviotorres.acopiomx.retro.Retro;
 import com.faviotorres.acopiomx.retro.RetroService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -49,6 +51,40 @@ class Presenter implements AcopioContract.Presenter {
                             return;
                         }
                         view.setupProductos(productos);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        view.hideProgressBar();
+                        view.showToast(e.getLocalizedMessage());
+                    }
+
+                    @Override
+                    public void onComplete() { }
+                });
+    }
+
+    @Override
+    public void getContactos(String acopioId) {
+        final Observable<List<Contacto>> contacto = retroService.fetchContacto(acopioId);
+        contacto.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<Contacto>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) { }
+
+                    @Override
+                    public void onNext(List<Contacto> contactos) {
+                        view.hideProgressBar();
+                        if (contactos == null) {
+                            view.showToast("Could not fetch products");
+                            return;
+                        }
+                        List<String> telefonos = new ArrayList<>();
+                        for (Contacto contacto: contactos) {
+                            telefonos.add(contacto.getTelefono());
+                        }
+                        view.setupContacto(telefonos);
                     }
 
                     @Override

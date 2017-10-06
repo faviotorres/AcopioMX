@@ -12,6 +12,7 @@ class AcopioContract {
     interface Presenter {
         void getAcopioExtra(Intent intent);
         void getProductos(String acopioId);
+        void getContactos(String acopioId);
     }
 
     interface View {
@@ -20,5 +21,6 @@ class AcopioContract {
         void showToast(String message);
         void setupAcopio(Acopio acopio);
         void setupProductos(List<Producto> productos);
+        void setupContacto(List<String> telefonos);
     }
 }

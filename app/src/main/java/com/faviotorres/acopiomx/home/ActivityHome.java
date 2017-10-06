@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.faviotorres.acopiomx.Client;
 import com.faviotorres.acopiomx.R;
 import com.faviotorres.acopiomx.acopio.ActivityAcopio;
+import com.faviotorres.acopiomx.ayuda.ActivityAyuda;
 import com.faviotorres.acopiomx.base.BaseActivity;
 import com.faviotorres.acopiomx.model.Acopio;
 import com.faviotorres.acopiomx.splash.ActivitySplash;
@@ -75,7 +76,7 @@ public class ActivityHome extends BaseActivity implements HomeContract.View, OnM
                 showSupportersDialog();
                 break;
             case R.id.action_help:
-
+                startActivity(new Intent(this, ActivityAyuda.class));
                 break;
             case android.R.id.home:
                 onBackPressed();
