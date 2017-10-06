@@ -3,10 +3,13 @@ package com.faviotorres.acopiomx.home;
 import android.util.Log;
 
 import com.faviotorres.acopiomx.model.Acopio;
+import com.faviotorres.acopiomx.model.Producto;
 import com.faviotorres.acopiomx.retro.Retro;
 import com.faviotorres.acopiomx.retro.RetroService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
@@ -26,12 +29,11 @@ class Presenter implements HomeContract.Presenter {
 
     @Override
     public void getAcopios() {
-        view.showProgressBar();
         if (retroService != null) {
-            Log.d("ACOPIOS URL", "---> url: "+retroService.toString());
-            Observable<List<Acopio>> acopios = retroService.fetchAcopios();
-            if (acopios != null) {
-                acopios.subscribeOn(Schedulers.newThread())
+            view.showProgressBar();
+            Observable<List<Acopio>> observable = retroService.fetchAcopios();
+            if (observable != null) {
+                observable.subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Observer<List<Acopio>>() {
                             @Override
@@ -51,6 +53,7 @@ class Presenter implements HomeContract.Presenter {
                             public void onError(Throwable e) {
                                 view.hideProgressBar();
                                 view.showError(e.getLocalizedMessage());
+                                Log.e("FETCH ACOPIOS", e.getLocalizedMessage());
                             }
 
                             @Override
@@ -58,5 +61,75 @@ class Presenter implements HomeContract.Presenter {
                         });
             }
         }
+    }
+
+    @Override
+    public void getAcopio(String acopioId) {
+        if (retroService != null) {
+            view.showProgressBar();
+            final Observable<Acopio> observable = retroService.fetchAcopio(acopioId);
+            observable.subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<Acopio>() {
+                        @Override
+                        public void onSubscribe(Disposable d) { }
+
+                        @Override
+                        public void onNext(Acopio acopio) {
+                            view.hideProgressBar();
+                            if (acopio == null) {
+                                view.showError("Could not fetch acopio");
+                                return;
+                            }
+                            Log.d("GET ACOPIO", "---> found: "+acopio.getNombre());
+                            view.setupAcopio(acopio);
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            view.hideProgressBar();
+                            view.showError(e.getLocalizedMessage());
+                        }
+
+                        @Override
+                        public void onComplete() { }
+                    });
+        }
+    }
+
+    @Override
+    public void searchProduct(String product) {
+        final String filter = "{\"where\":{\"nombre\":{\"like\":\""+product.toLowerCase()+"\"}}}";
+        Map<String, String> params = new HashMap<String, String>() {{
+            put("filter", filter);
+        }};
+        final Observable<List<Producto>> observable = retroService.searchProducto(params);
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<Producto>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) { }
+
+                    @Override
+                    public void onNext(List<Producto> productos) {
+                        view.hideProgressBar();
+                        if (productos == null) {
+                            view.showError("Could not fetch products");
+                            return;
+                        }
+                        view.setupProductos(productos);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        view.hideProgressBar();
+                        view.showError(e.getLocalizedMessage());
+                        Log.e("SEARCH PRODUCT", e.getLocalizedMessage());
+                        Log.d("SEARCH PRODUCT", e.toString());
+                    }
+
+                    @Override
+                    public void onComplete() { }
+                });
     }
 }

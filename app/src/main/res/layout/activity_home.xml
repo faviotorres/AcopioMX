@@ -31,6 +31,47 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_centerHorizontal="true"/>
+            <RelativeLayout
+                android:id="@+id/filter_rl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="#CC000000">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="52dp"
+                    android:layout_marginBottom="8dp"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/filter_applied"
+                        android:textSize="16sp"
+                        android:textColor="@color/md_white_1000"
+                        android:alpha=".87"/>
+                    <TextView
+                        android:id="@+id/filter_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/md_white_1000"
+                        android:alpha=".87"/>
+                </LinearLayout>
+                <ImageView
+                    android:id="@+id/filter_iv"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:tint="@color/md_white_1000"
+                    android:src="@drawable/close"/>
+            </RelativeLayout>
         </RelativeLayout>
     </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

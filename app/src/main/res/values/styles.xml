@@ -11,6 +11,9 @@
         <item name="colorControlNormal">#454545</item>
         <item name="colorControlActivated">@color/colorAccent</item>
         <item name="colorControlHighlight">@color/md_white_1000</item>
+
+        <item name="android:itemBackground">@color/md_grey_100</item>
+        <item name="android:itemTextAppearance">@style/MenuText</item>
     </style>
 
     <style name="ToolbarDark" parent="Theme.AppCompat">
@@ -40,7 +43,7 @@
     </style>
 
     <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorPrimary</item>
         <item name="android:textColorPrimary">@color/md_black_1000</item>
         <item name="android:windowBackground">@drawable/dialog</item>
     </style>
@@ -50,4 +53,9 @@
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
         <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
     </style>
+
+    <style name="MenuText" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/md_grey_900</item>
+    </style>
+
 </resources>

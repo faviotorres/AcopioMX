@@ -2,26 +2,33 @@ package com.faviotorres.acopiomx.home;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.faviotorres.acopiomx.Client;
 import com.faviotorres.acopiomx.R;
 import com.faviotorres.acopiomx.acopio.ActivityAcopio;
-import com.faviotorres.acopiomx.ayuda.ActivityAyuda;
 import com.faviotorres.acopiomx.base.BaseActivity;
 import com.faviotorres.acopiomx.model.Acopio;
+import com.faviotorres.acopiomx.model.Producto;
 import com.faviotorres.acopiomx.splash.ActivitySplash;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.annotations.IconFactory;
@@ -32,17 +39,22 @@ import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class ActivityHome extends BaseActivity implements HomeContract.View, OnMapReadyCallback {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.map_view) MapView mapView;
+    @BindView(R.id.filter_tv) TextView filterTV;
+    @BindView(R.id.filter_rl) RelativeLayout filterRL;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
 
+    private int markerId;
     private Context context;
     private MapboxMap mapboxMap;
     private Presenter presenter;
@@ -61,6 +73,7 @@ public class ActivityHome extends BaseActivity implements HomeContract.View, OnM
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
         initialize();
+        initializeUI();
     }
 
     @Override
@@ -76,7 +89,7 @@ public class ActivityHome extends BaseActivity implements HomeContract.View, OnM
                 showSupportersDialog();
                 break;
             case R.id.action_help:
-                startActivity(new Intent(this, ActivityAyuda.class));
+                showAyudaDialog();
                 break;
             case android.R.id.home:
                 onBackPressed();
@@ -135,12 +148,21 @@ public class ActivityHome extends BaseActivity implements HomeContract.View, OnM
     protected void initialize() {
         super.initialize();
         context = this;
+        acopios = new ArrayList<>();
         presenter = new Presenter(this);
+    }
+
+    private void initializeUI() {
+        filterRL.setVisibility(View.GONE);
     }
 
     private void getAcopios() {
         presenter.getAcopios();
     }
+
+
+
+    /* DIALOGS */
 
     private void showSupportersDialog() {
         final Dialog fullscreenDialog = new Dialog(this, R.style.DialogFullscreen);
@@ -170,6 +192,68 @@ public class ActivityHome extends BaseActivity implements HomeContract.View, OnM
         fullscreenDialog.show();
     }
 
+    private void showAyudaDialog() {
+        final AlertDialog.Builder alert = new AlertDialog.Builder(this, R.style.DialogTheme);
+        LayoutInflater inflater = this.getLayoutInflater();
+        final ViewGroup vg = null;
+        final View view = inflater.inflate(R.layout.dialog_ayuda, vg);
+
+        final EditText productoET = view.findViewById(R.id.dialog_ayuda_et);
+
+        alert.setTitle("Seach product");
+
+        alert.setPositiveButton("Search", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                String producto = getTextET(productoET);
+                presenter.searchProduct(producto);
+                filterTV.setText(producto);
+            }
+        });
+
+        alert.setNegativeButton("Cancel", null);
+
+        alert.setView(view);
+        alert.show();
+    }
+
+
+
+    /* MARKERS */
+
+    private void displayMapMarkers(List<Acopio> acopios) {
+        if (this.mapboxMap != null) {
+            this.mapboxMap.clear();
+            int pos = 0;
+            for (final Acopio acopio : acopios) {
+                addMarker(acopio, pos);
+                pos += 1;
+            }
+        }
+    }
+
+    private void addMarker(Acopio acopio, int pos) {
+        MarkerViewOptions options = new MarkerViewOptions()
+                .icon(IconFactory.getInstance(this).fromResource(R.mipmap.circle))
+                .position(new LatLng(acopio.getGeopos().getLat(),
+                        acopio.getGeopos().getLng()))
+                .title(acopio.getNombre())
+                .snippet(acopio.getDireccion()+"\n\n"+ getString(R.string.see_more));
+        options.getMarker().setId(pos);
+        this.mapboxMap.addMarker(options);
+    }
+
+
+
+    /* ON CLICKS */
+
+    @OnClick(R.id.filter_iv)
+    public void onClickClose() {
+        filterRL.setVisibility(View.GONE);
+        displayMapMarkers(this.acopios);
+    }
+
+
 
     /* HOME CONTRACT VIEW */
 
@@ -191,20 +275,23 @@ public class ActivityHome extends BaseActivity implements HomeContract.View, OnM
     @Override
     public void setupAcopios(List<Acopio> acopios) {
         this.acopios = acopios;
-        if (this.mapboxMap != null) {
-            int pos = 0;
-            for (final Acopio acopio : acopios) {
-                MarkerViewOptions options = new MarkerViewOptions()
-                        .icon(IconFactory.getInstance(this).fromResource(R.mipmap.circle))
-                        .position(new LatLng(acopio.getGeopos().getLat(),
-                                acopio.getGeopos().getLng()))
-                        .title(acopio.getNombre())
-                        .snippet(acopio.getDireccion()+"\n"+ getString(R.string.see_more));
-                options.getMarker().setId(pos);
-                pos += 1;
-                mapboxMap.addMarker(options);
-            }
+        displayMapMarkers(this.acopios);
+    }
+
+    @Override
+    public void setupProductos(List<Producto> productos) {
+        if (mapboxMap != null) { mapboxMap.clear(); }
+        filterRL.setVisibility(View.VISIBLE);
+        for (Producto producto: productos) {
+            Log.d("SETUP PRODUCTS", "---> producto: acopio id: "+producto.getAcopioId());
+            presenter.getAcopio(producto.getAcopioId());
         }
+    }
+
+    @Override
+    public void setupAcopio(Acopio acopio) {
+        addMarker(acopio, markerId);
+        markerId += 1;
     }
 
 
@@ -216,10 +303,14 @@ public class ActivityHome extends BaseActivity implements HomeContract.View, OnM
         this.mapboxMap.setOnInfoWindowClickListener(new MapboxMap.OnInfoWindowClickListener() {
             @Override
             public boolean onInfoWindowClick(@NonNull Marker marker) {
-                Acopio acopio = acopios.get((int) marker.getId());
-                Intent intent = new Intent(context, ActivityAcopio.class);
-                intent.putExtra("acopio", acopio);
-                startActivity(intent);
+                for (Acopio acopio: acopios) {
+                    if (acopio.getNombre().equals(marker.getTitle())) {
+                        Intent intent = new Intent(context, ActivityAcopio.class);
+                        intent.putExtra("acopio", acopio);
+                        startActivity(intent);
+                        break;
+                    }
+                }
                 return true;
             }
         });

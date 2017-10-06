@@ -16,4 +16,5 @@
     <string name="mexico_city_lng">-99.125898</string>
 
     <string name="see_more">See more…</string>
+    <string name="filter_applied">Filtro aplicado, centros que necesitan:</string>
 </resources>
