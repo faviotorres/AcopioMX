@@ -22,10 +22,10 @@ public interface RetroService {
     @GET("acopios/")
     Observable<List<Acopio>> fetchAcopios();
 
-    @POST("voluntarios/login/")
+    @POST("users/login/")
     Observable<Login.Result> login(@Body Login login);
 
-    @POST("voluntarios/")
+    @POST("users/")
     Observable<Register.Result> register(@Body Register register);
 
     @GET("acopios/{acopioId}/productos/")
