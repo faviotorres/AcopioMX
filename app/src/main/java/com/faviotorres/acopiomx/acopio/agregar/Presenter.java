@@ -70,6 +70,7 @@ class Presenter implements AgregarContract.Presenter {
                             view.showToast("Could not add product, please try again");
                             return;
                         }
+                        view.showToast("Success");
                         view.success();
                     }
 

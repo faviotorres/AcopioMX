@@ -72,6 +72,11 @@ public class ActivityAcopio extends BaseActivity implements AcopioContract.View 
                 intent.putExtra("acopio", acopio);
                 startActivity(intent);
                 break;
+            case R.id.action_refresh:
+                if (this.acopio != null) {
+                    presenter.getProductos(this.acopio.getId());
+                }
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

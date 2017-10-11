@@ -20,4 +20,5 @@
     <string name="agregar_producto_necesitado">Agregar producto necesitado</string>
     <string name="agregar_hint">Ejemplo: agua, pañales...</string>
     <string name="agregar">Agregar</string>
+    <string name="refresh">Refresh</string>
 </resources>
