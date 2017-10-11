@@ -13,6 +13,6 @@ https://github.com/JuweTakeheshi/ajuda
 ### Libraries
 - **Mapbox:** https://www.mapbox.com
 - **Glide:** https://github.com/bumptech/glide
-- **RxJava:** https://github.com/ReactiveX/RxJava
 - **Retrofit:** https://github.com/square/retrofit
+- **RxJava:** https://github.com/ReactiveX/RxJava
 - **ButterKnife:** https://github.com/JakeWharton/butterknife
