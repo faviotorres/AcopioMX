@@ -1,6 +1,7 @@
 package com.faviotorres.acopiomx.acopio;
 
 import android.content.Intent;
+import android.util.Log;
 
 import com.faviotorres.acopiomx.model.Acopio;
 import com.faviotorres.acopiomx.model.Contacto;
@@ -30,6 +31,7 @@ class Presenter implements AcopioContract.Presenter {
     @Override
     public void getAcopioExtra(Intent intent) {
         Acopio acopio = (Acopio) intent.getSerializableExtra("acopio");
+        Log.d("ACOPIO", "---> id: "+acopio.getId());
         view.setupAcopio(acopio);
     }
 

@@ -1,6 +1,7 @@
 package com.faviotorres.acopiomx.retro;
 
 
+import com.faviotorres.acopiomx.model.Aceptan;
 import com.faviotorres.acopiomx.model.Acopio;
 import com.faviotorres.acopiomx.model.Contacto;
 import com.faviotorres.acopiomx.model.Login;
@@ -11,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Observable;
-import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -41,6 +41,8 @@ public interface RetroService {
     @GET("productos")
     Observable<List<Producto>> searchProducto(@QueryMap Map<String, String> params);
 
-    @POST("acopios/{acopioId}/aceptan/")
-    Call<String> addProduct(@Path("acopioId") String acopioId, @QueryMap Map<String, String> params);
+    @POST("acopios/{acopioId}/productos")
+    Observable<Producto> addProducto(@Path("acopioId") String acopioId,
+                               @QueryMap Map<String, String> params,
+                               @Body Aceptan aceptan);
 }

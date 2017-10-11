@@ -23,6 +23,7 @@ public class ActivityAgregar extends BaseActivity implements AgregarContract.Vie
     @BindView(R.id.progress_bar) ProgressBar progressBar;
     @BindView(R.id.agregar_producto_et) EditText productoET;
 
+    private String acopioId;
     private Presenter presenter;
 
     @Override
@@ -65,8 +66,8 @@ public class ActivityAgregar extends BaseActivity implements AgregarContract.Vie
 
     @OnClick(R.id.fab)
     public void onClickAdd() {
-        longToast(this, "Adding: "+productoET.getText().toString());
-        productoET.setText("");
+        String accessToken = loadToken(this);
+        presenter.saveProducto(this.acopioId, getTextET(productoET), accessToken);
     }
 
 
@@ -89,6 +90,12 @@ public class ActivityAgregar extends BaseActivity implements AgregarContract.Vie
 
     @Override
     public void setupAcopio(Acopio acopio) {
+        this.acopioId = acopio.getId();
         nombreTV.setText(acopio.getNombre());
+    }
+
+    @Override
+    public void success() {
+        productoET.setText("");
     }
 }

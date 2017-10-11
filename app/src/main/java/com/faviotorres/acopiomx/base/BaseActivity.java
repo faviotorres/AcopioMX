@@ -63,6 +63,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         return et.getText().toString();
     }
 
+    public String loadToken(Context context) {
+        return preferencesUtils.loadToken(getSharedPreferences(context));
+    }
+
     public void saveToken(Context context, String from, String token) {
         preferencesUtils.saveToken(getSharedPreferences(context), from, token);
     }

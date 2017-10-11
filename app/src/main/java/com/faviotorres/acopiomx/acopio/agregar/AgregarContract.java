@@ -8,6 +8,7 @@ class AgregarContract {
 
     interface Presenter {
         void getAcopioExtra(Intent intent);
+        void saveProducto(String acopioId, String producto, String accessToken);
     }
 
     interface View {
@@ -15,5 +16,6 @@ class AgregarContract {
         void hideProgressBar();
         void showToast(String message);
         void setupAcopio(Acopio acopio);
+        void success();
     }
 }
