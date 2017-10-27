@@ -27,7 +27,7 @@
                 android:layout_marginTop="8dp"
                 android:textSize="32sp"
                 android:textStyle="bold"
-                android:text="@string/register"
+                android:text="@string/reg_strate"
                 android:textColor="@color/colorAccent"/>
             <EditText
                 android:id="@+id/email_et"
@@ -60,7 +60,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_gravity="end"
                 android:textColor="@color/md_white_1000"
-                android:text="@string/register"/>
+                android:text="@string/crear_cuenta"/>
             <ProgressBar
                 android:id="@+id/progress_bar"
                 android:layout_width="36dp"

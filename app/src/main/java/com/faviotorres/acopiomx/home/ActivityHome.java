@@ -69,7 +69,7 @@ public class ActivityHome extends BaseActivity implements HomeContract.View, OnM
         Mapbox.getInstance(this, Client.MAPBOX_TOKEN);
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
-        setupToolbar(toolbar, getString(R.string.app_name), false);
+        setupToolbar(toolbar, "Ayuda Sismo MX", false);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
         initialize();
@@ -200,9 +200,9 @@ public class ActivityHome extends BaseActivity implements HomeContract.View, OnM
 
         final EditText productoET = view.findViewById(R.id.dialog_ayuda_et);
 
-        alert.setTitle("Seach product");
+        alert.setTitle("Quiero ayduar con...");
 
-        alert.setPositiveButton("Search", new DialogInterface.OnClickListener() {
+        alert.setPositiveButton("Buscar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 String producto = getTextET(productoET);
@@ -211,7 +211,7 @@ public class ActivityHome extends BaseActivity implements HomeContract.View, OnM
             }
         });
 
-        alert.setNegativeButton("Cancel", null);
+        alert.setNegativeButton("Cancelar", null);
 
         alert.setView(view);
         alert.show();

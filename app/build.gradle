@@ -4,7 +4,7 @@ def version = "26.1.0"
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    buildToolsVersion "26.0.2"
     defaultConfig {
         applicationId "com.faviotorres.acopiomx"
         minSdkVersion 21

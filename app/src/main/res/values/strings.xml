@@ -1,24 +1,28 @@
 <resources>
     <string name="app_name">Acopio MX</string>
-    <string name="login">Login</string>
+    <string name="app_label">Ayuda Sismo MX</string>
+    <string name="login">Entrar</string>
     <string name="email">email</string>
-    <string name="password">password</string>
-    <string name="register">Register</string>
+    <string name="password">contraseña</string>
+    <string name="register">Registro</string>
     <string name="info">Info</string>
-    <string name="logout">Logout</string>
-    <string name="collaboration"><![CDATA[ In colaboration with: <br/>
+    <string name="logout">Cerrar sesión</string>
+    <string name="collaboration"><![CDATA[ En colaboración con: <br/>
         - Nélida Velázquez <br/>
         - Josué Hernández<br/><br/>]]>
     </string>
-    <string name="help">Help</string>
+    <string name="help">Ayudar</string>
 
     <string name="mexico_city_lat">19.433536</string>
     <string name="mexico_city_lng">-99.125898</string>
 
-    <string name="see_more">See more…</string>
+    <string name="see_more">Ver más</string>
     <string name="filter_applied">Filtro aplicado, centros que necesitan:</string>
     <string name="agregar_producto_necesitado">Agregar producto necesitado</string>
-    <string name="agregar_hint">Ejemplo: agua, pañales...</string>
+    <string name="agregar_hint">Ejemplo: agua, pañales…</string>
     <string name="agregar">Agregar</string>
     <string name="refresh">Refresh</string>
+    <string name="crear_cuenta">Crear cuenta</string>
+    <string name="reg_strate">Regístrate</string>
+    <string name="nombre_del_producto">Nombre del Producto</string>
 </resources>
